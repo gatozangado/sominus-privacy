@@ -4,36 +4,46 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Sominus for PC</title>
+<meta name="color-scheme" content="dark">
+<link rel="icon" href="assets/favicon.ico" sizes="any">
+<link rel="icon" href="assets/favicon-32.png" type="image/png" sizes="32x32">
 <style>
-  body { background:#000; color:#fff; font-family:'Segoe UI',system-ui,sans-serif; font-weight:300;
-         margin:0; padding:48px 20px; display:flex; justify-content:center; }
+  /* Jost and Noto Sans (SIL Open Font License), self-hosted like the rest of the site. */
+  @font-face{font-family:'Jost';font-style:normal;font-weight:200 400;font-display:swap;src:url(assets/fonts/jost-latin.woff2) format('woff2')}
+  @font-face{font-family:'Noto Sans';font-style:normal;font-weight:300 600;font-display:swap;src:url(assets/fonts/noto-sans-latin.woff2) format('woff2')}
+  body { background:#000; color:#fff; font-family:'Noto Sans','Segoe UI',system-ui,sans-serif; font-weight:300;
+         margin:0; padding:48px 16px; display:flex; justify-content:center; }
   .wrap { max-width:560px; width:100%; text-align:center; }
-  .mark { font-size:64px; font-weight:200; line-height:1; }
-  .brand { letter-spacing:8px; font-size:15px; margin-top:10px; }
-  .tag { font-style:italic; color:#999; margin-top:8px; font-size:14px; }
-  h1 { font-weight:300; font-size:26px; margin:44px 0 12px; }
+  .mark { display:block; margin:0 auto; width:41px; height:64px; }
+  .brand { font-family:'Jost','Noto Sans',system-ui,sans-serif; letter-spacing:.5em; padding-left:.5em; font-size:15px; margin-top:14px; }
+  .tag { font-family:'Jost','Noto Sans',system-ui,sans-serif; color:#999; margin-top:8px; font-size:15px; letter-spacing:.04em; }
+  h1 { font-family:'Jost','Noto Sans',system-ui,sans-serif; font-weight:300; font-size:28px; line-height:1.25; margin:44px 0 12px; }
   p { color:#ccc; line-height:1.65; font-size:15px; }
+  .needs { color:#fff; font-weight:400; }
   .btn { display:inline-block; background:#fff; color:#000; text-decoration:none; font-weight:600;
          letter-spacing:1px; padding:18px 44px; border-radius:40px; margin:28px 0 10px; font-size:15px; }
-  .size { color:#777; font-size:13px; }
-  .steps { text-align:left; margin:40px auto 0; max-width:460px; }
+  .size { color:#999; font-size:13px; }
+  .steps { text-align:left; margin:40px auto 0; max-width:460px; padding-left:22px; }
   .steps li { color:#ccc; line-height:1.7; margin-bottom:14px; font-size:15px; }
   .note { border:1px solid #333; border-radius:12px; padding:18px 22px; margin-top:34px; text-align:left; }
   .note b { color:#fff; font-weight:600; }
   .note p { margin:8px 0 0; font-size:14px; }
-  .foot { color:#666; font-size:13px; margin-top:44px; line-height:1.7; }
+  .foot { color:#ccc; font-size:13px; margin-top:44px; line-height:1.7; }
+  .links { margin-top:10px; }
   a { color:#fff; }
 </style>
 </head>
 <body>
 <div class="wrap">
-  <div class="mark">S</div>
-  <div class="brand">S O M I N U S</div>
+  <img class="mark" src="assets/mark.png" width="41" height="64" alt="">
+  <div class="brand" aria-label="Sominus">SOMINUS</div>
   <div class="tag">Rest. Paused. Remembered.</div>
 
-  <h1>Pause your computer<br>when you fall asleep</h1>
-  <p>This small free helper lets the Sominus app on your phone pause whatever is playing on
-     this computer &mdash; a film, a series, music &mdash; the moment it notices you have drifted off.</p>
+  <h1>Pause your computer<br>when your heart rate drops</h1>
+  <p>This small free helper lets the Sominus app on your phone pause most films, series and
+     music playing on this computer when your heart rate drops to the level you set.</p>
+  <p class="needs">Needs the Sominus phone app. Try everything free for 7 days, then unlock Sominus with a single one-time purchase.<br>
+     <a href="https://play.google.com/store/apps/details?id=com.marcos.sominus&amp;utm_source=website&amp;utm_medium=pc&amp;utm_campaign=desktop">Sominus on Google Play</a></p>
 
   <a class="btn" href="SominusDesktop.exe">DOWNLOAD FOR WINDOWS</a>
   <div class="size">SominusDesktop.exe &middot; 17 MB &middot; Windows 10 and 11</div>
@@ -42,26 +52,27 @@
     <li>Download and double-click the file.</li>
     <li>A message confirms it is running. That is all the setup there is.</li>
     <li>In Sominus on your phone, open <b>Media Mode</b> and set <b>OUTPUT: PC (WI-FI)</b>.
-        Your phone finds this computer by itself.</li>
+        Your phone should find this computer by itself when both are on the same Wi&#8209;Fi.</li>
   </ol>
 
   <div class="note">
     <b>Windows may show a blue warning</b>
     <p>The first time you open it, Windows may say &ldquo;Windows protected your PC&rdquo;.
-       That appears for any new app from a small developer. Click <b>More info</b>,
-       then <b>Run anyway</b>.</p>
+       This can appear for new apps that Windows doesn&rsquo;t recognise yet. Click <b>More info</b>,
+       then <b>Run anyway</b>. Only do this for the file downloaded from this page.</p>
   </div>
 
   <div class="note">
     <b>What it does, and does not do</b>
-    <p>It waits quietly for a message from your phone on your own Wi&#8209;Fi, then presses
-       pause. No account, no internet connection, nothing is collected or sent anywhere.
+    <p>It waits quietly for a message from your phone on your own Wi&#8209;Fi, then pauses
+       what&rsquo;s playing. No account, no internet connection, nothing is collected or sent anywhere.
        A small <b>S</b> appears near your clock &mdash; right&#8209;click it to quit at any time.</p>
   </div>
 
   <div class="foot">
-    Sominus is a wellness and convenience tool, not a medical device.<br>
-    Questions? <a href="mailto:gatozangado@gmail.com">gatozangado@gmail.com</a>
+    Sominus is a wellness and convenience tool, not a medical device or a safety device.<br>
+    Questions? <a href="mailto:sominustech@gmail.com">sominustech@gmail.com</a>
+    <div class="links"><a href="./">Sominus home</a> &middot; <a href="sominus.html">Privacy policy</a></div>
   </div>
 </div>
 </body>

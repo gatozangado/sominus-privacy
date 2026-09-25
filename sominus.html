@@ -2,31 +2,57 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Sominus - Privacy Policy</title>
+<meta name="color-scheme" content="dark">
+<link rel="icon" href="assets/favicon.ico" sizes="any">
+<style>
+  @font-face{font-family:'Jost';font-style:normal;font-weight:200 400;font-display:swap;src:url(assets/fonts/jost-latin.woff2) format('woff2')}
+  @font-face{font-family:'Noto Sans';font-style:normal;font-weight:300 600;font-display:swap;src:url(assets/fonts/noto-sans-latin.woff2) format('woff2')}
+  body { background:#000; color:#ccc; font-family:'Noto Sans','Segoe UI',system-ui,sans-serif; font-weight:300;
+         max-width:700px; margin:40px auto; padding:0 16px; line-height:1.65; font-size:16px; }
+  h1, h2 { font-family:'Jost','Noto Sans',system-ui,sans-serif; font-weight:300; color:#fff; }
+  h1 { font-size:32px; line-height:1.2; margin:28px 0 8px; }
+  h2 { font-size:22px; margin:32px 0 6px; }
+  a { color:#fff; }
+  .back { font-size:14px; }
+  .date { color:#999; font-size:14px; }
+</style>
 </head>
-<body style="font-family: sans-serif; max-width: 700px; margin: 40px auto; padding: 0 16px; line-height: 1.6;">
+<body>
+<p class="back"><a href="./">&larr; Back to Sominus</a></p>
 <h1>Sominus - Privacy Policy</h1>
-<p>Last updated: 15 August 2026</p>
-<p>Sominus helps prevent drowsy driving and keeps your media paused while you sleep. It comes as a Wear OS watch app and an Android phone app, plus an optional free Windows helper (Sominus Desktop) that lets the phone app pause a computer. This policy covers all of them.</p>
+<p class="date">Last updated: 25 September 2026</p>
+<p>Sominus is a heart-rate alarm and media-pause app. It comes as a Wear OS watch app and an Android phone app, plus an optional free Windows helper (Sominus Desktop) that lets the phone app pause a computer. This policy covers all of them.</p>
+<h2>Who we are</h2>
+<!-- TODO developer: this names the developer exactly as Google Play shows it today ("Sominus Tech"). If you change the Play developer name or register a business name, update this line to match. -->
+<p>Sominus is made by one independent developer, who publishes it on Google Play under the developer name &ldquo;Sominus Tech&rdquo;. In this policy, &ldquo;we&rdquo; and &ldquo;us&rdquo; mean that developer. You can contact us at sominustech@gmail.com.</p>
 <h2>Data collection</h2>
-<p>Sominus does not collect, store, or transmit any personal data to us or to any third party. We run no servers and require no account. All sensor readings are processed on your own devices, in real time, and are never saved or sent anywhere outside them.</p>
+<p>Sominus does not collect or transmit any personal data to us, and we do not sell or share your data. We run no servers and require no account. Sensor readings are processed in real time on your own devices and are never sent to us. Google's role (watch-to-phone streaming and purchases) is described below.</p>
 <h2>Heart rate and sensors</h2>
-<p>The watch app reads your heart rate using the watch's built-in sensor. The phone app can receive a live heart rate from your Sominus watch, or from a standard Bluetooth heart-rate sensor (such as a chest strap or a sport watch in broadcast mode). In every case the reading is used only in the moment, on the device, to detect drowsiness. It is never stored, logged, or transmitted to us.</p>
+<p>The watch app reads your heart rate using the watch's built-in sensor. The phone app can receive a live heart rate from your Sominus watch, or from a standard Bluetooth heart-rate sensor (such as a chest strap or a sport watch in broadcast mode). In every case the reading is used on the device to compare it with the level you set and, if you turn on learning, to work out your resting pulse. It is never sent to us.</p>
+<!-- TODO developer: say whether learned values are stored on the phone or the watch, and whether the reset button clears them. Keep play-listing.md section 5, row 1 in sync. -->
 <h2>Watch-to-phone streaming</h2>
-<p>If you enable Phone Stream on the watch, your live heart rate is sent from your watch to your own paired phone using the Wear OS Data Layer, directly between your two devices. It does not travel through our servers - we have none.</p>
+<p>If you enable Phone Stream on the watch, your live heart rate is sent from your watch to your own paired phone by Google's Wear OS connection (the Wear OS Data Layer, part of Google Play services). Google's documentation says this connection sends data directly between the watch and phone when they are connected by Bluetooth, and that the data may also pass through Google's servers, for example over Wi-Fi or mobile data when Bluetooth isn't available. Google states that data transferred through its cloud this way is end-to-end encrypted. Google Play services is provided by Google under <a href="https://policies.google.com/privacy">Google's Privacy Policy</a>. We never receive your heart rate: it does not travel through our servers - we have none.</p>
 <h2>Bluetooth</h2>
-<p>Sominus uses Bluetooth to send a play or pause signal to a device you have paired, such as a TV, and to find and connect to your heart-rate sensor. This works entirely locally between your devices. No Bluetooth data is sent to us.</p>
+<p>Sominus uses Bluetooth to pause or resume playback on a TV or other device you have connected, and to find and connect to your heart-rate sensor. This works entirely locally between your devices. No Bluetooth data is sent to us.</p>
 <h2>Local network and Sominus Desktop</h2>
-<p>If you use the PC pause feature, the phone app sends a short pause or resume command to the Sominus Desktop helper on your own Wi-Fi network. The command contains no personal data. The helper listens only on your local network, needs no internet connection or account, and collects nothing; its small activity log stays on your computer.</p>
+<p>If you use the PC pause feature, the phone app sends a short pause or resume command to the Sominus Desktop helper on your own Wi-Fi network. The command contains no personal data. The helper listens only on your local network, needs no internet connection or account, and sends nothing anywhere. It keeps a small activity log on your computer, which is never transmitted.</p>
+<!-- TODO developer: describe what the activity log contains (legal.md section 8, question 7). -->
 <h2>Purchases</h2>
-<p>Sominus offers an optional one-time purchase to unlock the full version, handled entirely by Google Play Billing. We do not receive or store your payment information; that is handled directly by Google.</p>
+<p>After a 7-day free trial, Sominus can be unlocked with a single one-time purchase, handled entirely by Google Play Billing. We do not receive or store your payment information; that is handled directly by Google.</p>
 <h2>Third parties</h2>
 <p>Sominus does not use analytics, advertising, or any third-party tracking services.</p>
 <h2>Permissions we ask for</h2>
 <p>Body sensors (watch heart rate), Bluetooth (heart-rate sensors and TV pausing), and network access (finding your PC on your own Wi-Fi). Each is used only for the feature it names.</p>
+<h2>If you email us</h2>
+<p>If you email us, we use your email address and message only to reply to you.</p>
+<!-- TODO developer: add how long you keep support emails (for example "and we delete them when they are no longer needed"), but only if you will actually do that. -->
+<h2>This website</h2>
+<p>This website is hosted on GitHub Pages. GitHub logs visitors' IP addresses for security; see the <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement">GitHub Privacy Statement</a>.</p>
 <h2>Changes to this policy</h2>
 <p>If Sominus gains features that change how data is handled, this page will be updated before those features ship, and the date above will change.</p>
 <h2>Contact</h2>
-<p>Questions about this policy can be sent to gatozangado@gmail.com.</p>
+<p>Questions about this policy can be sent to sominustech@gmail.com.</p>
 </body>
 </html>
