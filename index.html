@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sominus: Pulse Alarm &amp; Pause</title>
+<meta name="description" content="Sominus pauses what you're watching when your heart rate drops to the level you set. For your Wear OS watch and Android phone.">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#000000">
+<link rel="canonical" href="https://gatozangado.github.io/sominus-privacy/">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Sominus">
+<meta property="og:locale" content="en_AU">
+<meta property="og:url" content="https://gatozangado.github.io/sominus-privacy/">
+<meta property="og:title" content="Sominus: Pulse Alarm &amp; Pause">
+<meta property="og:description" content="Sominus pauses what you're watching when your heart rate drops to the level you set. For your Wear OS watch and Android phone.">
+<meta property="og:image" content="https://gatozangado.github.io/sominus-privacy/assets/og.jpg">
+<meta property="og:image:type" content="image/jpeg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="The Sominus logo and the words: Your show can wait. Sominus pauses what you're watching when your heart rate drops to the level you set. Rest. Paused. Remembered. Next to it, an illustration of a paused TV in a lamp-lit living room, with a person resting under a blanket on the sofa.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Sominus: Pulse Alarm &amp; Pause">
+<meta name="twitter:description" content="Sominus pauses what you're watching when your heart rate drops to the level you set. For your Wear OS watch and Android phone.">
+<meta name="twitter:image" content="https://gatozangado.github.io/sominus-privacy/assets/og.jpg">
+<meta name="twitter:image:alt" content="The Sominus logo and the words: Your show can wait. Sominus pauses what you're watching when your heart rate drops to the level you set. Rest. Paused. Remembered. Next to it, an illustration of a paused TV in a lamp-lit living room, with a person resting under a blanket on the sofa.">
+
+<link rel="icon" href="assets/favicon.ico" sizes="any">
+<link rel="icon" href="assets/favicon-32.png" type="image/png" sizes="32x32">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+<link rel="preload" href="assets/fonts/jost-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/noto-sans-latin.woff2" as="font" type="font/woff2" crossorigin>
+
+<style>
+/* Fonts: Jost and Noto Sans from Google Fonts (SIL Open Font License), self-hosted so visitors' browsers make no requests to third parties. */
+@font-face{font-family:'Jost';font-style:normal;font-weight:200 400;font-display:swap;src:url(assets/fonts/jost-latin.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:'Noto Sans';font-style:normal;font-weight:300 600;font-stretch:100%;font-display:swap;src:url(assets/fonts/noto-sans-latin.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+
+:root{
+  --night:#000000; --white:#ffffff; --mist:#cccccc; --silver:#bebebe; --ash:#999999;
+  --smoke:#777777; --graphite:#222222; --line:#333333; --gold:#e8b84a;
+  --display:'Jost','Noto Sans',system-ui,sans-serif;
+  --text:'Noto Sans','Segoe UI',system-ui,sans-serif;
+  --gutter:16px;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{background:var(--night);color-scheme:dark;-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+body{margin:0;background:var(--night);color:var(--mist);font:300 17px/1.65 var(--text);-webkit-font-smoothing:antialiased}
+img{max-width:100%;height:auto;display:block}
+a{color:var(--white);text-decoration-thickness:1px;text-underline-offset:3px}
+a:hover{color:var(--mist)}
+:focus-visible{outline:2px solid var(--white);outline-offset:3px;border-radius:6px}
+p{margin:0 0 1em}
+b,strong{font-weight:600;color:var(--white)}
+
+.skip{position:absolute;left:-9999px;top:12px;background:var(--white);color:#000;padding:10px 18px;border-radius:40px;font-weight:600;z-index:10}
+.skip:focus{left:var(--gutter)}
+
+.wrap{width:100%;max-width:1160px;margin:0 auto;padding:0 var(--gutter)}
+@media (min-width:640px){:root{--gutter:32px}}
+
+/* Header */
+.top{display:flex;align-items:center;justify-content:space-between;gap:24px;padding-top:20px;padding-bottom:20px}
+.brand{display:inline-flex;align-items:center;gap:14px;text-decoration:none;color:var(--white)}
+.brand img{width:22px;height:34px}
+.wordmark{font:300 14px/1 var(--display);letter-spacing:.5em;text-transform:uppercase;color:var(--white)}
+.nav{display:none}
+@media (min-width:900px){
+  .nav{display:flex;gap:28px;font:400 14px/1 var(--text)}
+  .nav a{color:var(--mist);text-decoration:none}
+  .nav a:hover{color:var(--white)}
+}
+
+/* Hero */
+.hero{display:grid;gap:36px;padding-top:20px;padding-bottom:72px}
+.hero-copy{text-align:center}
+.eyebrow{font:400 12.5px/1.5 var(--text);letter-spacing:.3em;text-transform:uppercase;color:var(--gold);margin:0 0 14px}
+h1{font:200 clamp(40px,9.6vw,60px)/1.08 var(--display);letter-spacing:.01em;color:var(--white);margin:0 0 18px}
+.lead{font-size:18px;line-height:1.6;color:var(--mist);max-width:31em;margin:0 auto}
+.cta{display:flex;flex-direction:column;align-items:center;gap:6px;margin-top:22px}
+.badge{display:inline-block;line-height:0;border-radius:12px}
+.badge img{width:216px;height:auto}
+.trial{font:400 14.5px/1.55 var(--text);color:var(--mist);margin:0;max-width:26em}
+.ds-hero{font:400 14.5px/1.55 var(--text);color:var(--white);margin:16px auto 0;padding-top:14px;border-top:1px solid var(--line);max-width:26em}
+
+.scene{position:relative;margin:0;border-radius:18px;overflow:hidden;background:#0b0b0b}
+.scene img{width:100%;aspect-ratio:3/2;object-fit:cover}
+.tag{position:absolute;top:12px;left:12px;background:rgba(0,0,0,.78);color:var(--white);font:400 12px/1 var(--text);letter-spacing:.08em;padding:7px 12px;border-radius:40px}
+
+@media (min-width:960px){
+  .hero{grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);align-items:center;gap:56px;padding-top:40px;padding-bottom:104px}
+  .hero-copy{text-align:left}
+  .lead{margin:0}
+  .hero .cta{align-items:flex-start}
+  .hero .badge{margin-left:-13px}
+  .ds-hero{margin-left:0}
+}
+
+/* Sections */
+.section{padding:72px 0;border-top:1px solid var(--line)}
+@media (min-width:960px){.section{padding:104px 0}}
+h2{font:300 clamp(28px,4.2vw,40px)/1.18 var(--display);color:var(--white);margin:0 0 20px;letter-spacing:.005em}
+h3{font:400 20px/1.35 var(--display);color:var(--white);margin:0 0 8px}
+.intro{max-width:40em}
+.muted{color:var(--ash)}
+
+/* Steps */
+.steps{list-style:none;padding:0;margin:40px 0 0;display:grid;gap:16px}
+.steps li{border:1px solid var(--line);border-radius:18px;padding:28px 24px 24px}
+.num{display:block;font:200 46px/1 var(--display);color:var(--white);margin-bottom:18px}
+.steps p{margin:0}
+@media (min-width:860px){.steps{grid-template-columns:repeat(3,1fr);gap:24px}}
+
+/* Split sections */
+.split{display:grid;gap:44px;align-items:center}
+@media (min-width:900px){
+  .split{grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);gap:72px}
+  .split.flip .split-copy{order:2}
+}
+.lines{list-style:none;padding:0;margin:28px 0 0}
+.lines li{position:relative;padding:14px 0 14px 26px;border-top:1px solid var(--line)}
+.lines li:last-child{border-bottom:1px solid var(--line)}
+.lines li::before{content:"";position:absolute;left:0;top:1.55em;width:12px;height:1px;background:var(--white)}
+.ui{margin:0 auto;width:100%;max-width:340px}
+.ui .screen{border:1px solid var(--line);border-radius:30px;padding:26px 12px;background:var(--night)}
+.ui figcaption{font:400 13.5px/1.5 var(--text);color:var(--ash);text-align:center;margin-top:12px}
+.more{margin-top:28px}
+.pill{display:inline-block;background:var(--graphite);color:var(--white);text-decoration:none;font:600 14px/1.2 var(--text);letter-spacing:.06em;text-transform:uppercase;padding:16px 28px;border-radius:40px}
+.pill:hover{background:#2e2e2e;color:var(--white)}
+
+.notice{border:1px solid var(--mist);border-radius:14px;padding:18px 20px;margin-top:28px;color:var(--white);font:400 15.5px/1.6 var(--text)}
+.notice p{margin:0}
+.notice .label{display:block;font:600 12.5px/1.4 var(--text);letter-spacing:.2em;text-transform:uppercase;margin-bottom:6px}
+.road{font:400 14.5px/1.6 var(--text);color:var(--mist);margin-top:18px}
+.road p{margin:0 0 6px}
+.road ul{list-style:none;padding:0;margin:0}
+.road li{padding:3px 0}
+
+/* Works with */
+.groups{display:grid;gap:36px;margin-top:40px}
+.group-label{font:400 12.5px/1.5 var(--text);letter-spacing:.3em;text-transform:uppercase;color:var(--silver);margin:0 0 14px}
+.devs{display:grid;gap:12px}
+@media (min-width:640px){.devs.two{grid-template-columns:repeat(2,1fr)}}
+@media (min-width:860px){.devs{gap:16px}.devs.three{grid-template-columns:repeat(3,1fr)}}
+.dev{border:1px solid var(--line);border-radius:16px;padding:20px 20px 18px}
+.dev h3{font-size:19px}
+.dev p{margin:0;font-size:15.5px;line-height:1.6}
+.dev .link{display:inline-block;margin-top:10px;font:400 15px/1.4 var(--text)}
+.compat{font:400 15px/1.6 var(--text);color:var(--mist);margin:24px 0 0;max-width:46em}
+
+/* Privacy */
+.privacy-grid{display:grid;gap:12px}
+@media (min-width:900px){.privacy-grid{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:72px}}
+
+/* Pricing */
+.price-card{border:1px solid var(--line);border-radius:24px;padding:40px 22px;text-align:center;max-width:760px;margin:0 auto}
+@media (min-width:640px){.price-card{padding:56px 48px}}
+.price-card .big{font:300 clamp(20px,2.6vw,24px)/1.5 var(--display);color:var(--white);max-width:28em;margin:0 auto 24px}
+.price-card ul{list-style:none;padding:0;margin:0 auto 28px;max-width:30em}
+.price-card li{padding:10px 0;border-top:1px solid var(--line)}
+.price-card li:last-child{border-bottom:1px solid var(--line)}
+.price-card .cta{margin-top:8px}
+
+/* FAQ */
+.faq{max-width:820px;margin-top:32px}
+.faq details{border-top:1px solid var(--line)}
+.faq details:last-child{border-bottom:1px solid var(--line)}
+.faq summary{list-style:none;cursor:pointer;position:relative;padding:20px 44px 20px 0;font:400 19px/1.4 var(--display);color:var(--white)}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";position:absolute;right:6px;top:15px;font:200 30px/1 var(--display);color:var(--mist)}
+.faq details[open] summary::after{content:"\2212"}
+.faq .answer{padding:0 0 22px;max-width:44em}
+.faq .answer p:last-child{margin-bottom:0}
+.src{font-size:14.5px;color:var(--mist)}
+
+/* Please note */
+.please{border-top:1px solid var(--line);padding-top:56px;padding-bottom:56px}
+.please .box{max-width:820px}
+.please h2{font:600 12.5px/1.5 var(--text);letter-spacing:.3em;text-transform:uppercase;color:var(--white);margin:0 0 14px}
+.please p{font:400 15.5px/1.65 var(--text);color:var(--mist)}
+
+/* Footer */
+footer{border-top:1px solid var(--line);padding:64px 0 48px;text-align:center}
+.lockup img{width:36px;height:56px;margin:0 auto}
+.lockup .wordmark{display:block;margin-top:14px;padding-left:.5em;font-size:15px}
+.lockup .tagline{display:block;margin-top:10px;font:300 15px/1.4 var(--display);letter-spacing:.04em;color:var(--ash)}
+.foot-links{list-style:none;padding:0;margin:36px auto 0;display:flex;flex-wrap:wrap;justify-content:center;gap:10px 26px;font:400 15px/1.5 var(--text)}
+.foot-links a{color:var(--mist)}
+.foot-links a:hover{color:var(--white)}
+.contact{margin:28px 0 0;font:400 15px/1.6 var(--text)}
+.legal{margin:28px auto 0;max-width:40em;font:400 13.5px/1.6 var(--text);color:var(--ash)}
+.legal p{margin:0 0 8px}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="wrap top">
+  <a class="brand" href="./" aria-label="Sominus home">
+    <img src="assets/mark.png" alt="" width="22" height="34">
+    <span class="wordmark" aria-hidden="true">Sominus</span>
+  </a>
+  <nav class="nav" aria-label="Sections">
+    <a href="#how">How it works</a>
+    <a href="#media">Media Mode</a>
+    <a href="#drive">Drive Mode</a>
+    <a href="#works-with">Works with</a>
+    <a href="#pricing">Pricing</a>
+    <a href="#faq">FAQ</a>
+  </nav>
+</header>
+
+<main id="main">
+
+  <!-- HERO -->
+  <section class="wrap hero" aria-labelledby="hero-title">
+    <div class="hero-copy">
+      <p class="eyebrow">For Wear OS and Android</p>
+      <h1 id="hero-title">Your show can wait.</h1>
+      <p class="lead">Sominus pauses what you're watching on your phone, a Bluetooth-connected TV, or your PC when your heart rate drops to the level you set.</p>
+      <div class="cta">
+        <a class="badge" href="https://play.google.com/store/apps/details?id=com.marcos.sominus&amp;utm_source=website&amp;utm_medium=landing&amp;utm_campaign=hero">
+          <img src="assets/get-it-on-google-play.png" alt="Get it on Google Play" width="646" height="250">
+        </a>
+        <p class="trial">Try everything free for 7 days, then unlock Sominus with a single one-time purchase.</p>
+      </div>
+      <p class="ds-hero">Not a safety or medical device. If you feel drowsy, stop and rest.</p>
+    </div>
+    <figure class="scene">
+      <picture>
+        <source media="(max-width:640px)" srcset="assets/scene-tv-900.webp" width="900" height="600">
+        <img src="assets/scene-1600.webp"
+             srcset="assets/scene-900.webp 900w, assets/scene-1600.webp 1600w"
+             sizes="(min-width:1160px) 600px, (min-width:960px) 52vw, 100vw"
+             width="1600" height="1067" fetchpriority="high"
+             alt="Illustration: a paused TV in a lamp-lit living room at night.">
+      </picture>
+      <span class="tag" aria-hidden="true">Illustration</span>
+    </figure>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section class="section" id="how" aria-labelledby="how-title">
+    <div class="wrap">
+      <p class="eyebrow">How it works</p>
+      <h2 id="how-title">Three steps.</h2>
+      <ol class="steps">
+        <li>
+          <span class="num" aria-hidden="true">01</span>
+          <h3>Wear it</h3>
+          <p>Sominus uses your Wear OS watch's heart-rate sensor, or a standard Bluetooth heart-rate sensor (such as a chest strap) paired with your phone.</p>
+        </li>
+        <li>
+          <span class="num" aria-hidden="true">02</span>
+          <h3>Choose and set</h3>
+          <p>Choose what gets paused: this phone, your TV or your PC. Set your own levels, or let Sominus learn your resting pulse.</p>
+        </li>
+        <li>
+          <span class="num" aria-hidden="true">03</span>
+          <h3>Pick up where you left off</h3>
+          <p>When your heart rate drops to the level you set, Sominus can pause what you're watching, so you can pick up where you left off.</p>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- MEDIA MODE -->
+  <section class="section" id="media" aria-labelledby="media-title">
+    <div class="wrap split">
+      <div class="split-copy">
+        <p class="eyebrow">Media Mode</p>
+        <h2 id="media-title">Not a timer. It responds to your heart rate.</h2>
+        <p class="intro">When your heart rate drops to the level you set, Sominus can pause what you're watching on your phone, a Bluetooth-connected TV, or your PC, so you can pick up where you left off.</p>
+        <ul class="lines">
+          <li>Works with most apps that accept a standard pause command.</li>
+          <li>Sominus never accesses your streaming accounts or any app's data.</li>
+          <li>Also pauses your Windows PC over your own Wi-Fi, with the Sominus Desktop helper.</li>
+          <li>Dim-screen mode for dark rooms and night-time use.</li>
+        </ul>
+        <p class="more"><a class="pill" href="pc.html">Sominus Desktop for Windows</a></p>
+      </div>
+      <figure class="ui">
+        <div class="screen">
+          <img src="assets/media-ui.webp" width="600" height="671" loading="lazy"
+               alt="Phone screen showing the Sominus Media Mode controls: dim screen, learning, output set to this phone, and the auto-pause level.">
+        </div>
+        <figcaption>The Media Mode screen in the Sominus phone app.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- DRIVE MODE -->
+  <section class="section" id="drive" aria-labelledby="drive-title">
+    <div class="wrap split flip">
+      <div class="split-copy">
+        <p class="eyebrow">Drive Mode</p>
+        <h2 id="drive-title">A heart-rate alarm on your wrist. Not a substitute for rest.</h2>
+        <p class="intro">When your heart rate drops to the warning level you choose, your watch vibrates and sounds an alarm.</p>
+        <p class="intro">Set your own warning and alarm levels, with sound and vibration.</p>
+        <p class="intro">An extra nudge, never a reason to keep driving. If you feel drowsy, stop and rest.</p>
+        <div class="notice" role="note">
+          <span class="label">Important</span>
+          <p>Sominus is not a safety device. It can't prevent sleep and no alert is guaranteed. If you feel drowsy, stop and rest.</p>
+        </div>
+        <div class="road">
+          <p>Official advice on tiredness and driving:</p>
+          <ul>
+            <li><a href="https://www.transport.nsw.gov.au/roadsafety/topics-tips/fatigue" rel="noopener">Australia (NSW): Transport for NSW</a></li>
+            <li><a href="https://www.gov.uk/guidance/the-highway-code/rules-for-drivers-and-motorcyclists-89-to-102" rel="noopener">United Kingdom: The Highway Code, rule 91 (GOV.UK)</a></li>
+            <li><a href="https://www.nhtsa.gov/risky-driving/drowsy-driving" rel="noopener">United States: NHTSA, drowsy driving</a></li>
+          </ul>
+        </div>
+      </div>
+      <figure class="ui">
+        <div class="screen">
+          <img src="assets/drive-ui.webp" width="600" height="534" loading="lazy"
+               alt="Phone screen showing the Sominus Drive Mode controls: dim screen, learning, manual mode, warning on and sound on.">
+        </div>
+        <figcaption>The Drive Mode controls in the Sominus phone app.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- WORKS WITH -->
+  <section class="section" id="works-with" aria-labelledby="works-title">
+    <div class="wrap">
+      <p class="eyebrow">Works with</p>
+      <h2 id="works-title">What you need.</h2>
+      <div class="groups">
+        <div>
+          <p class="group-label">Heart rate from</p>
+          <div class="devs two">
+            <div class="dev">
+              <h3>Wear OS watch</h3>
+              <p>A Wear OS watch with a heart-rate sensor. Watch app and phone app included in one purchase.</p>
+            </div>
+            <div class="dev">
+              <h3>Bluetooth heart-rate sensor</h3>
+              <p>Or a standard Bluetooth heart-rate sensor, such as a chest strap, paired with your phone. Drive Mode's alarm is on your Wear OS watch.</p>
+            </div>
+          </div>
+        </div>
+        <div>
+          <p class="group-label">Pauses what's playing on</p>
+          <div class="devs three">
+            <div class="dev">
+              <h3>Android phone</h3>
+              <p>The Sominus phone app. Media Mode can pause what you're watching on the phone itself.</p>
+            </div>
+            <div class="dev">
+              <h3>Bluetooth-connected TV</h3>
+              <p>A TV you can connect to your phone by Bluetooth.</p>
+            </div>
+            <div class="dev">
+              <h3>Windows PC</h3>
+              <p>Needs Sominus Desktop, a helper for Windows 10 and 11, with your PC and phone on the same Wi-Fi. No account and no internet connection needed.</p>
+              <a class="link" href="pc.html">Get Sominus Desktop</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <p class="compat">Pausing works with most apps that accept a standard pause command. TV pausing needs a TV you can connect to your phone by Bluetooth. Not every TV supports it, so try it during the 7-day free trial.</p>
+    </div>
+  </section>
+
+  <!-- PRIVACY -->
+  <section class="section" id="privacy" aria-labelledby="privacy-title">
+    <div class="wrap privacy-grid">
+      <div>
+        <p class="eyebrow">Privacy</p>
+        <h2 id="privacy-title">No account. No ads. No analytics.</h2>
+        <p class="intro">Your heart rate is processed on your own watch and phone, and is never sent to me.</p>
+      </div>
+      <div>
+        <ul class="lines">
+          <li>Sominus has no servers.</li>
+          <li>Watch-to-phone streaming uses Google's Wear OS connection, which may pass data through Google's servers. Google says data sent through its cloud is end-to-end encrypted.</li>
+          <li>I don't sell or share your data.</li>
+        </ul>
+        <p class="more"><a href="sominus.html">Read the privacy policy</a></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRICING -->
+  <section class="section" id="pricing" aria-labelledby="pricing-title">
+    <div class="wrap">
+      <div class="price-card">
+        <p class="eyebrow">Pricing</p>
+        <h2 id="pricing-title">Try it for 7 days. Then buy it once.</h2>
+        <p class="big">Try everything free for 7 days, then unlock Sominus with a single one-time purchase.</p>
+        <ul>
+          <li>No subscription. No account. No ads.</li>
+          <li>One purchase covers the watch app and the phone app.</li>
+          <li>The free Sominus Desktop helper for Windows is a separate download.</li>
+          <li>Payments are handled by Google Play. I never see your payment details.</li>
+        </ul>
+        <div class="cta">
+          <a class="badge" href="https://play.google.com/store/apps/details?id=com.marcos.sominus&amp;utm_source=website&amp;utm_medium=landing&amp;utm_campaign=pricing">
+            <img src="assets/get-it-on-google-play.png" alt="Get it on Google Play" width="646" height="250" loading="lazy">
+          </a>
+          <p class="trial">See the price on Google Play.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="section" id="faq" aria-labelledby="faq-title">
+    <div class="wrap">
+      <p class="eyebrow">FAQ</p>
+      <h2 id="faq-title">Honest answers.</h2>
+      <div class="faq">
+        <details>
+          <summary>Will it keep me awake?</summary>
+          <div class="answer">
+            <p>No. Sominus can't keep anyone awake and can't prevent sleep. It responds when your heart rate drops to the level you set: Media Mode can pause what you're watching, and Drive Mode sounds an alarm on your watch.</p>
+            <p>Sominus is not a safety device. It can't prevent sleep and no alert is guaranteed. If you feel drowsy, stop and rest.</p>
+          </div>
+        </details>
+        <details>
+          <summary>Is it a sleep detector?</summary>
+          <div class="answer">
+            <p>No. Sominus doesn't detect sleep or drowsiness. It responds when your heart rate drops to the level you set, and heart-rate readings vary from person to person and depend on your watch or sensor and how it's worn.</p>
+            <p>Studies have linked growing sleepiness with a lower heart rate, but heart rate changes for many reasons, so it isn't a reliable drowsiness test on its own.</p>
+            <p class="src">Sources: <a href="https://pubmed.ncbi.nlm.nih.gov/30978124/" rel="noopener">Buendia et al., 2019</a> · <a href="https://pubmed.ncbi.nlm.nih.gov/31947339/" rel="noopener">Persson et al., 2019</a></p>
+          </div>
+        </details>
+        <details>
+          <summary>Is it a medical device?</summary>
+          <div class="answer">
+            <p>No. Sominus is not a medical device and does not diagnose, treat, cure, or prevent any medical condition. For medical advice, diagnosis or treatment, consult a healthcare professional.</p>
+          </div>
+        </details>
+        <details>
+          <summary>What do I need?</summary>
+          <div class="answer">
+            <p>A Wear OS watch with a heart-rate sensor, or a standard Bluetooth heart-rate sensor paired with your phone, plus the Sominus phone app. Drive Mode's alarm is on your Wear OS watch. To pause a TV, you need a TV you can connect to your phone by Bluetooth. To pause a PC, you need Sominus Desktop on a Windows 10 or 11 PC on the same Wi-Fi as your phone. See <a href="#works-with">Works with</a>.</p>
+          </div>
+        </details>
+        <details>
+          <summary>Which apps and TVs does it work with?</summary>
+          <div class="answer">
+            <p>Works with most apps that accept a standard pause command. TV pausing needs a TV you can connect to your phone by Bluetooth. Not every TV supports it, so try it during the 7-day free trial.</p>
+            <p>Sominus never accesses your streaming accounts or any app's data.</p>
+          </div>
+        </details>
+        <details>
+          <summary>How does it pause my TV or PC?</summary>
+          <div class="answer">
+            <p>Sominus pauses what you're watching on your phone, a Bluetooth-connected TV, or your PC, and works with most apps that accept a standard pause command. I don't publish the technical details, but it never accesses your streaming accounts or any app's data.</p>
+          </div>
+        </details>
+        <details>
+          <summary>Is there a subscription?</summary>
+          <div class="answer">
+            <p>No. Try everything free for 7 days, then unlock Sominus with a single one-time purchase. One purchase covers the watch app and the phone app. See the price on Google Play.</p>
+          </div>
+        </details>
+        <details>
+          <summary>What happens to my heart-rate data?</summary>
+          <div class="answer">
+            <p>Your heart rate is processed on your own watch and phone. Sominus has no servers, no account and no analytics, and your heart rate is never sent to me. Watch-to-phone streaming uses Google's Wear OS connection, which may pass data through Google's servers; Google says data sent through its cloud is end-to-end encrypted. See the <a href="sominus.html">privacy policy</a>.</p>
+          </div>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- PLEASE NOTE (DS-LONG) -->
+  <section class="please" aria-labelledby="note-title">
+    <div class="wrap"><div class="box">
+      <h2 id="note-title">Please note</h2>
+      <p>Sominus is a convenience and wellness aid, not a safety device. It cannot prevent sleep, and no alert or pause is guaranteed: heart-rate readings vary from person to person and depend on your watch or sensor and how it's worn. Do not rely on it to drive while tired. If you feel drowsy, stop and rest.</p>
+      <p>Sominus is not a medical device and does not diagnose, treat, cure, or prevent any medical condition. For medical advice, diagnosis or treatment, consult a healthcare professional.</p>
+    </div></div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="lockup">
+      <img src="assets/mark.png" alt="" width="36" height="56" loading="lazy">
+      <span class="wordmark">Sominus</span>
+      <span class="tagline">Rest. Paused. Remembered.</span>
+    </div>
+    <ul class="foot-links">
+      <li><a href="https://play.google.com/store/apps/details?id=com.marcos.sominus&amp;utm_source=website&amp;utm_medium=landing&amp;utm_campaign=footer">Google Play</a></li>
+      <li><a href="pc.html">Sominus Desktop for Windows</a></li>
+      <li><a href="sominus.html">Privacy policy</a></li>
+      <li><a href="connector.html">Sominus Connector privacy policy</a></li>
+    </ul>
+    <p class="contact">Questions? <a href="mailto:gatozangado@gmail.com">gatozangado@gmail.com</a></p>
+    <div class="legal">
+      <p>Made by one independent developer.</p>
+      <p>Wear OS and Google Play are trademarks of Google LLC. Sominus is not affiliated with any streaming service. The Google Play logo is a trademark of Google LLC.</p>
+      <p>This website is hosted on GitHub Pages. GitHub logs visitors' IP addresses for security; see the <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement" rel="noopener">GitHub Privacy Statement</a>.</p>
+    </div>
+  </div>
+</footer>
+</body>
+</html>
